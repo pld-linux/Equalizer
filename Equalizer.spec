@@ -5,35 +5,47 @@
 Summary:	Equalizer - parallel rendering framework
 Summary(pl.UTF-8):	Equalizer - szkielet do równoległego renderowania
 Name:		Equalizer
-Version:	1.8.0
+Version:	2.1.0
 Release:	1
 License:	LGPL v2.1
 Group:		Libraries
+#Source0Download: https://github.com/Eyescale/Equalizer/releases
 Source0:	https://github.com/Eyescale/Equalizer/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	79f14ec41d978edf15c79bbcefb7774e
-Source1:	https://github.com/Eyescale/CMake/archive/ac79ee2/Eyescale-CMake-ac79ee2.tar.gz
-# Source1-md5:	3d357dfe6c3ff71bd15a8f517546fff6
+# Source0-md5:	fc882b9ae31ee49b83f32c15094e656a
 URL:		http://www.equalizergraphics.com/
-BuildRequires:	Collage-devel >= 1.1
-BuildRequires:	Lunchbox-devel >= 1.10
+BuildRequires:	Collage-devel >= 1.7.0
+BuildRequires:	Eyescale-CMake >= 2017.05
+BuildRequires:	Lunchbox-devel >= 1.16.0
 BuildRequires:	OpenGL-devel
-BuildRequires:	QtCore-devel >= 4.6
-BuildRequires:	QtGui-devel >= 4.6
-BuildRequires:	QtOpenGL-devel >= 4.6
+BuildRequires:	Pression-devel >= 2.0.0
+BuildRequires:	Qt5Core-devel >= 5
+BuildRequires:	Qt5Gui-devel >= 5
+BuildRequires:	Qt5Widgets-devel >= 5
+#BuildRequires:	Qt5OpenGL-devel >= 4.6 #?
+BuildRequires:	Servus-devel >= 1.5.1
+BuildRequires:	bison
 BuildRequires:	boost-devel >= 1.41.0
-BuildRequires:	cmake >= 2.8
+BuildRequires:	cmake >= 3.1
 %{?with_apidocs:BuildRequires:	doxygen}
-BuildRequires:	glew-devel
+BuildRequires:	flex
+# glew-mx?
+BuildRequires:	glew-devel >= 1.6
 BuildRequires:	hwloc-devel >= 1.3
+BuildRequires:	hwsd-devel >= 2.0.1
+BuildRequires:	libgomp-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	opencv-devel >= 2.0
 BuildRequires:	pkgconfig
 BuildRequires:	python-devel >= 2
-BuildRequires:	vmmlib >= 1.8
+BuildRequires:	vmmlib >= 1.13.0
 BuildRequires:	xorg-lib-libX11-devel
-# hwsd>=1.1 GLStats>=0.3 OpenSceneGraph>=3.0 VRPN>=07.30 DisplayCluster>=0.4 magellan
-Requires:	Collage >= 1.1
-Requires:	Lunchbox >= 1.10
+# GLStats>=0.3.2 0.3.3-snap? Deflect>=0.14.0
+# OpenSceneGraph>=3.0 VRPN>=07.30 DisplayCluster>=0.4 magellan spnav? opencv?
+Requires:	Collage >= 1.7.0
+Requires:	Lunchbox >= 1.16.0
+Requires:	Pression >= 2.0.0
+Requires:	Servus >= 1.5.1
+Requires:	hwsd >= 2.0.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -60,9 +72,9 @@ Summary:	Header files for Equalizer libraries
 Summary(pl.UTF-8):	Pliki nagłówkowe bibliotek Equalizer
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	Collage-devel >= 1.1
-Requires:	Lunchbox-devel >= 1.10
-Requires:	glew-devel
+Requires:	Collage-devel >= 1.7.0
+Requires:	Lunchbox-devel >= 1.16.0
+Requires:	glew-devel >= 1.6
 
 %description devel
 Header files for Equalizer libraries.
@@ -94,10 +106,10 @@ Examples for Equalizer package.
 Przykłady do pakietu Equalizer.
 
 %prep
-%setup -q -a1
+%setup -q
 
-%{__mv} CMake-* CMake/common
-%{__rm} .gitexternals
+rmdir CMake/common
+ln -sf /usr/share/Eyescale-CMake CMake/common
 
 %build
 install -d build
